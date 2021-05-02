@@ -1,0 +1,30 @@
+{
+  "name": "yes",
+  "version": "1.0.0",
+  "description": "CryptoTeam Whatsapp Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demayaa/CryptoTeam-Bot.git"
+  },
+  "keywords": [
+    "-"
+  ],
+  "author": "demayaa-cryptoteam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demayaa/CryptoTeam-Bot/issues"
+  },
+  "homepage": "https://github.com/demayaa/CryptoTeam-Bot#readme",
+  "dependencies": {
+    "@adiwajshing/baileys": "^3.2.1",
+    "@coingecko/cryptoformat": "^0.4.2",
+    "@iamtraction/google-translate": "^1.1.2",
+    "coingecko-api": "^1.0.10",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2"
+  }
+}
