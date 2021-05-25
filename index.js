@@ -4,7 +4,7 @@ const { formatCurrency } = require("@coingecko/cryptoformat");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const { info, price, calc, market, trans, gas, menu } = require("./lib");
-
+var {bala, screen} = require('./lib/bnb')
 const api = {
     url: "https://pro-api.coinmarketcap.com/v1/",
     key: { "X-CMC_PRO_API_KEY": "71e8a17e-6178-45c2-b5a3-79caea07e303", Accept: "application/json" },
@@ -34,11 +34,16 @@ client.on("group-participants-update", async (m) => {
 });
 
 client.on("message-new", async (i) => {
+    const reply = (teks) => {
+            const from = i.key.remoteJid;
+            client.sendMessage(from, teks, text, { quoted: i });
+            
+        };
     try {
         if (!i.message) return; // console.log(i);
         if (i.key && i.key.remoteJid == "status@broadcast") return;
         //if (i.key.fromMe) return;
-
+        //const from = i.key.remoteJid;
         global.prefix;
         const from = i.key.remoteJid;
         const type = Object.keys(i.message)[0];
@@ -66,10 +71,6 @@ client.on("message-new", async (i) => {
 		const groupDesc = isGroup ? g.desc : ''
         
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
-        
-        const reply = (teks) => {
-            client.sendMessage(from, teks, text, { quoted: i });
-        };
         
         if(command === 'info'){
             const com = body.split(" ");
@@ -121,6 +122,20 @@ client.on("message-new", async (i) => {
             reply( await trans(text, code))
         }
         
+        if(command === 'balance'){
+            const address = body.split(' ')[1]
+            const balance = await bala(address)
+            reply(balance)
+        }
+        
+        if (command === 'tv'){
+            const coin = body.split(' ')[1] || 'BTC';
+            const int = body.split(' ')[2] || 1;
+            
+            const buff = new Buffer.from(await screen(coin,int), 'base64')
+            client.sendMessage(from, buff, image, {quoted: i})
+        }
+        
         if (command === 'gas'){
             reply(await gas())
         }
@@ -130,6 +145,7 @@ client.on("message-new", async (i) => {
         }
 
     } catch (e) {
-        console.error(e);
+        reply('_Command salah / coin tidak ada coba cek ulang_');
     }
 });
+
